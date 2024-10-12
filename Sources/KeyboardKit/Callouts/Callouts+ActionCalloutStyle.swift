@@ -33,6 +33,8 @@ public extension Callouts {
             callout: Callouts.CalloutStyle = .standard,
             font: KeyboardFont = .init(.title3),
             maxButtonSize: CGSize = CGSize(width: 50, height: 50),
+            maxCompactButtonSize: CGSize = CGSize(width: 30, height: 50),
+            compactButtonThreshold: Int = 5,
             selectedBackgroundColor: Color? = nil,
             selectedForegroundColor: Color? = nil,
             verticalOffset: CGFloat? = nil,
@@ -41,6 +43,8 @@ public extension Callouts {
             self.callout = callout
             self.font = font
             self.maxButtonSize = maxButtonSize
+            self.maxCompactButtonSize = maxCompactButtonSize
+            self.compactButtonThreshold = compactButtonThreshold
             self.selectedBackgroundColor = selectedBackgroundColor ?? .blue
             self.selectedForegroundColor = selectedForegroundColor ?? .white
             let standardVerticalOffset: CGFloat = DeviceType.current == .pad ? 20 : 0
@@ -56,6 +60,10 @@ public extension Callouts {
         
         /// The max size of the callout buttons.
         public var maxButtonSize: CGSize
+        
+        public var maxCompactButtonSize: CGSize
+        
+        public var compactButtonThreshold: Int
         
         /// The background color of the selected item.
         public var selectedBackgroundColor: Color

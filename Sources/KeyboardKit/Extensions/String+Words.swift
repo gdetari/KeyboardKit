@@ -13,9 +13,16 @@ public extension String {
     /// A list of mutable, western word delimiters.
     static var wordDelimiters = "!.?,;:()[]{}<>".map(String.init) + [" ", .newline]
     
-    /// Whether or not this is a western word delimiter.
+    /// Whether or not this is a  word delimiter.
     var isWordDelimiter: Bool {
-        Self.wordDelimiters.contains(self)
+        var foundWord = false
+        enumerateSubstrings(in: startIndex..<endIndex, options: .byWords) { (substring, _, _, stop) in
+            if substring != nil {
+                foundWord = true
+                stop = true
+            }
+        }
+        return !foundWord
     }
 }
 

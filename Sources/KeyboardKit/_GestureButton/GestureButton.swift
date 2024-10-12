@@ -232,7 +232,7 @@ private extension GestureButton {
         state.isPressed = true
         pressAction?()
         dragStartAction?(value)
-        tryTriggerCancelAfterDelay()
+        //tryTriggerCancelAfterDelay()
         tryTriggerLongPressAfterDelay()
         tryTriggerRepeatAfterDelay()
     }

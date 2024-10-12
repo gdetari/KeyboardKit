@@ -37,6 +37,7 @@ public extension CalloutContext {
         /// The action handler to use when tapping buttons.
         public var tapAction: (KeyboardAction) -> Void
 
+        public var actionSize = CGSize.zero
         
         /// The currently active actions.
         @Published
@@ -133,20 +134,18 @@ public extension CalloutContext.ActionContext {
     }
     
     /// Update the selected action for a drag gesture.
-    func updateSelection(with dragTranslation: CGSize?) {
-        guard let value = dragTranslation, buttonFrame != .zero else { return }
-        if shouldReset(for: value) { return reset() }
-        guard shouldUpdateSelection(for: value) else { return }
-        let translation = value.width
+    func updateSelection(with value: DragGesture.Value) {
+        guard buttonFrame != .zero else { return }
+        guard actionSize != .zero else { return }
+        if shouldReset(for: value.translation) { return reset() }
+        guard shouldUpdateSelection(for: value.translation) else { return }
+        let translation = value.translation.width
         let standardStyle = Callouts.ActionCalloutStyle.standard
         let maxButtonSize = standardStyle.maxButtonSize
-        let buttonSize = buttonFrame.size.limited(to: maxButtonSize)
-        let indexWidth = 0.9 * buttonSize.width
-        let offset = Int(abs(translation) / indexWidth)
+        let offset = isLeading ? Int(value.location.x / actionSize.width) : Int(abs(value.location.x - actionSize.width) / actionSize.width)
         let index = isLeading ? offset : actions.count - offset - 1
-        let currentIndex = self.selectedIndex
         let newIndex = isIndexValid(index) ? index : startIndex
-        if currentIndex != newIndex { triggerHapticFeedbackForSelectionChange() }
+        if selectedIndex != newIndex { triggerHapticFeedbackForSelectionChange() }
         self.selectedIndex = newIndex
     }
 }

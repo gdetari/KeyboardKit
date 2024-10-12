@@ -139,7 +139,7 @@ private extension Gestures.KeyboardButtonGestures {
 
     func handleDrag(in geo: GeometryProxy, value: DragGesture.Value) {
         lastDragValue = value
-        calloutContext?.actionContext.updateSelection(with: value.translation)
+        calloutContext?.actionContext.updateSelection(with: value)
         dragAction?(value.startLocation, value.location)
     }
 

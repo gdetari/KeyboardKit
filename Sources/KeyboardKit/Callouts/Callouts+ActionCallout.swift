@@ -107,7 +107,8 @@ private extension Callouts.ActionCallout {
         let frameSize = buttonFrame.size
         let widthScale = (calloutActions.count == 1) ? 1.2 : 1
         let buttonSize = CGSize(width: frameSize.width * widthScale, height: frameSize.height)
-        return buttonSize.limited(to: style.maxButtonSize)
+        let limit = calloutActions.count >= style.compactButtonThreshold ? style.maxCompactButtonSize : style.maxButtonSize
+        return buttonSize.limited(to: limit)
     }
     
     var calloutStyle: Callouts.CalloutStyle { style.callout }
@@ -136,6 +137,9 @@ private extension Callouts.ActionCallout {
                     .foregroundColor(isSelected($0.offset) ? style.selectedForegroundColor : style.callout.textColor)
                     .cornerRadius(cornerRadius)
                     .padding(.vertical, style.verticalTextPadding)
+                    .onAppear {
+                        calloutContext.actionSize = calloutButtonSize
+                    }
             }
         }
         .padding(.horizontal, curveSize.width)

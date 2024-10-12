@@ -176,7 +176,7 @@ extension KeyboardAction {
             _ suggestion: Autocomplete.Suggestion
         ) {
             tryAutolearnSuggestion(suggestion)
-            keyboardContext.insertAutocompleteSuggestion(suggestion)
+            keyboardContext.insertAutocompleteSuggestion(suggestion, tryInsertSpace: shouldInsertAutocompleteSpace())
             handle(.release, on: .character(""))
         }
 
@@ -367,6 +367,10 @@ extension KeyboardAction {
         ) -> Bool {
             gesture == .release && action.shouldRemoveAutocompleteInsertedSpace
         }
+        
+        open func shouldInsertAutocompleteSpace() -> Bool {
+            true
+        }
 
         /// Try to apply autocorrect before a certain gesture action.
         open func tryApplyAutocorrectSuggestion(
@@ -377,7 +381,7 @@ extension KeyboardAction {
             let suggestions = autocompleteContext.suggestions
             let autocorrect = suggestions.first { $0.isAutocorrect }
             guard let suggestion = autocorrect else { return }
-            keyboardContext.insertAutocompleteSuggestion(suggestion, tryInsertSpace: false)
+            keyboardContext.insertAutocompleteSuggestion(suggestion, tryInsertSpace: shouldInsertAutocompleteSpace())
         }
 
         /// Try to ignore autocorrections for the current word before a certain gesture action.

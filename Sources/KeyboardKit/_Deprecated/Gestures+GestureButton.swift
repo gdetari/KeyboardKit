@@ -144,7 +144,7 @@ private extension Gestures.GestureButton {
         isPressed = true
         pressAction?()
         dragStartAction?(value)
-        tryTriggerCancelAfterDelay()
+        //tryTriggerCancelAfterDelay()
         tryTriggerLongPressAfterDelay()
         tryTriggerRepeatAfterDelay()
     }
